@@ -8,6 +8,8 @@ module Loopia
     end
 
     def create_subdomain_link
+      wait = Selenium::WebDriver::Wait.new(timeout: 15)
+      wait.until { @driver.find_element(:link_text, 'Subdomän').displayed? }
       @driver.find_element(:link_text, 'Subdomän')
     end
   end

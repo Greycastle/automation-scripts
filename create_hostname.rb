@@ -6,8 +6,8 @@ require_relative 'lib/page_objects/loopia_landing.rb'
 require_relative 'lib/page_objects/loopia_user_landing.rb'
 require_relative 'lib/page_objects/loopia_create_subdomain.rb'
 
-def launch_website
-  driver = Selenium::WebDriver.for :chrome
+def launch_website(browser)
+  driver = Selenium::WebDriver.for browser
   driver.navigate.to 'http://www.loopia.se'
   driver
 rescue Selenium::WebDriver::Error::WebDriverError => e
@@ -41,12 +41,12 @@ end
 begin
   args = parse_commandline_options
   collect_login(args)
-  driver = launch_website
+  driver = launch_website(args[:browser])
   login(driver, args)
   create_subdomain(driver, args[:hostname])
 rescue PreconditionError, ExecutionError => e
   $stderr.puts e.message
   Kernel.exit 1
 ensure
-  driver.quit unless driver.nil?
+  # driver.quit unless driver.nil?
 end
